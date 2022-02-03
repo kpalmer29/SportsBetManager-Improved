@@ -12,25 +12,25 @@ class Spread: public SportsBet {
 
 private:
 
-    bool favorite; //favorite or underdog
+    bool favorite; //true if betting over the spread, false otherwise
 
-    double gameSpread;
+    double gameSpread; //spread of the game
 
 public:
 
-    void setSpread(const double &spread);
+    void setSpread(const double &spread); //set the game spread
 
-    void setFavorite(bool fav);
+    void setFavorite(bool fav); //set whether betting over or under the spread
 
-    int getSpread() const;
+    double getSpread() const; //returns the game spread
 
-    std::string getFavorite() const;
+    std::string getFavorite() const; //returns whether betting over or under the spread
 
-    bool equals(const Spread &rhs) const;
+    bool equals(const Spread &rhs) const; //checks if rhs equals this object
 
-    bool operator==(const Spread &rhs) const;
+    bool operator==(const Spread &rhs) const; //operator overload
 
-    std::string toString() const;
+    std::string toString() const; //displays Spread bet as a string
 
 };
 

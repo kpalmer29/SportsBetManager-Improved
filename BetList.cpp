@@ -4,10 +4,11 @@
 
 #include "BetList.h"
 
-
+//ctor
 template <typename T>
 BetList<T>::BetList(): numBets(0), betHead(nullptr) {}
 
+//overload ctor
 template <typename T>
 BetList<T>::BetList (const BetList<T> &src): numBets(src.numBets), betHead(nullptr) {
     if (src.betHead != nullptr) {
@@ -26,6 +27,7 @@ BetList<T>::BetList (const BetList<T> &src): numBets(src.numBets), betHead(nullp
     }
 }
 
+//assignment op
 template <typename T>
 BetList<T>& BetList<T>::operator=(const BetList &rhs) {
     if (this != &rhs) {
@@ -43,6 +45,7 @@ BetList<T>& BetList<T>::operator=(const BetList &rhs) {
     return *this;
 }
 
+//destructor
 template <typename T>
 BetList<T>::~BetList() {
     while (betHead != nullptr) {
@@ -52,36 +55,46 @@ BetList<T>::~BetList() {
     }
 }
 
+/**
+ * Returns the number of bets held by BetList
+ * @return - numBets
+ */
 template <typename T>
 int BetList<T>::getNumBets() const {
     return numBets;
 }
 
+/**
+ * adds a bet to BetList. Bets are added in order of their Date. If the bet already exists in the BetList an exception
+ * is thrown.
+ *
+ * @param newBet - Bet Objects to add
+ */
 template <typename T>
 void BetList<T>::addBet(const T &newBet) {
-    if (exists(newBet))
+    if (exists(newBet)) //bet already exists
         throw std::invalid_argument("Bet Already Exists");
 
 
-    LinkedListNode<T>* temp = new LinkedListNode<T>;
+    LinkedListNode<T>* temp = new LinkedListNode<T>; //create node to hold new bet
     temp -> bet = newBet;
     temp -> next = nullptr;
 
-    if (numBets == 0)
+    if (numBets == 0) //edge case
         betHead = temp;
 
     else {
 
         Date newDate = newBet.getDate();
 
-        if (newDate < betHead -> bet.getDate()) {
+        if (newDate < betHead -> bet.getDate()) { //edge case, bet should be inserted at front of list
             temp->next = betHead;
             betHead = temp;
         }
 
         else {
             LinkedListNode<T>* temp2 = betHead;
-            while (temp2 != nullptr && temp2 -> bet.getDate() <= newDate) {
+            while (temp2 != nullptr && temp2 -> bet.getDate() <= newDate) { //move temp2 to insertion point
                 temp2 = temp2 -> next;
             }
             LinkedListNode<T>* prev = betHead;
@@ -106,21 +119,32 @@ void BetList<T>::addBet(const T &newBet) {
     numBets++;
 }
 
+/**
+ * checks if a bet exists in BetList
+ * @param newBet - bet to check existence of
+ * @return - true if bet exists, false if it doesn't
+ */
 template <typename T>
 bool BetList<T>::exists(const T &newBet) {
-    if (numBets == 0)
+    if (numBets == 0) //BetList empty
         return false;
 
     LinkedListNode<T>* temp = betHead;
 
-    while (temp != nullptr) {
-        if (temp -> bet == newBet)
+    while (temp != nullptr) { //iterate through linked list
+        if (temp -> bet == newBet) //bet exists
             return true;
         temp = temp -> next;
     }
     return false;
 }
 
+/**
+ * returns a string of all bets held by BetList which occur on a certain date.
+ *
+ * @param date - Date object
+ * @return - Stirng object containing appropriate bets
+ */
 template <typename T>
 std::string BetList<T>::getBetsOnDate(Date &date) const {
     std::string returnString;
@@ -128,21 +152,27 @@ std::string BetList<T>::getBetsOnDate(Date &date) const {
 
     LinkedListNode<T>* temp = betHead;
 
-    while (temp != nullptr) {
-        if (temp->bet.getDate() == date) {
+    while (temp != nullptr) { //iterate through BetList
+        if (temp->bet.getDate() == date) { //check
             returnString.append(temp->bet.toString() + "\n"); //add bet to returnString
             numBetsOnDate++;
         }
         temp = temp -> next;
     }
 
-    if (numBetsOnDate == 0)
+    if (numBetsOnDate == 0) //no bets exist on given date
         return "None";
 
     else
         return returnString;
 }
 
+/**
+ * Returns a String of all bets placed against a given team which occur on a certain date.
+ * @param newBet - String of team to check bet against
+ * @param date - Date object
+ * @return - String of all bets on a given date placed against a given team.
+ */
 template <typename T>
 std::string BetList<T>::getBetsAgainst(const std::string &newBet, const Date &date) const {
 
@@ -151,7 +181,7 @@ std::string BetList<T>::getBetsAgainst(const std::string &newBet, const Date &da
 
     LinkedListNode<T>* temp = betHead;
 
-    while (temp != nullptr) {
+    while (temp != nullptr) { //iterate through BetList
         if (temp -> bet.getAgainst() == newBet && temp -> bet.getDate() == date) {
             returnString.append(temp->bet.toString() + "\n"); //append bet to returnString
             numBetsAgainst++;
@@ -161,7 +191,12 @@ std::string BetList<T>::getBetsAgainst(const std::string &newBet, const Date &da
 
         return returnString;
 }
-
+/**
+ * Returns a String of all bets placed for a sport which occur on a certain date.
+ * @param spt - String of sport
+ * @param date - Date object
+ * @return - String of all bets on a given date for a given sport.
+ */
 template <typename T>
 std::string BetList<T>::getBetsOfSport(const std::string &spt, const Date &date) const {
 
@@ -170,7 +205,7 @@ std::string BetList<T>::getBetsOfSport(const std::string &spt, const Date &date)
 
     LinkedListNode<T>* temp = betHead;
 
-    while (temp != nullptr) {
+    while (temp != nullptr) { //iterate through BetList
         if (temp -> bet.getSport() == spt && temp -> bet.getDate() == date) {
             returnString.append(temp->bet.toString() + "\n");
             numBetsOfSport++;
@@ -181,6 +216,12 @@ std::string BetList<T>::getBetsOfSport(const std::string &spt, const Date &date)
         return returnString;
 }
 
+/**
+ * Returns a String of all bets placed for a given team which occur on a certain date.
+ * @param newBet - String of team to check bet for
+ * @param date - Date object
+ * @return - String of all bets on a given date placed for a given team.
+ */
 template <typename T>
 std::string BetList<T>::getBetsFor(const std::string &newBet, const Date &date) const {
 
@@ -189,7 +230,7 @@ std::string BetList<T>::getBetsFor(const std::string &newBet, const Date &date) 
 
     LinkedListNode<T>* temp = betHead;
 
-    while (temp != nullptr) {
+    while (temp != nullptr) { //iterate through BetList
         if (temp -> bet.getFor() == newBet && temp -> bet.getDate() == date) {
             returnString.append(temp->bet.toString() + "\n");
             numBetsFor++;
@@ -200,6 +241,11 @@ std::string BetList<T>::getBetsFor(const std::string &newBet, const Date &date) 
         return returnString;
 }
 
+/**
+ * returns a string containing all bets held by BetList
+ *
+ * @return - string of bets
+ */
 template <typename T>
 std::string BetList<T>::getAllBets() const {
 
@@ -215,15 +261,22 @@ std::string BetList<T>::getAllBets() const {
     return returnString;
 }
 
+/**
+ * sets betHead equal to nullpoint and resets numBets. Sets empty BetList object
+ */
 template <typename T>
 void BetList<T>::deleteAllBets() {
     numBets = 0;
     betHead = nullptr;
 }
 
+/**
+ * Deletes a certain bet from the Manager. Throws an exception if that bet does not exist
+ * @param oldBet - Template Object will be a bet type
+ */
 template <typename T>
 void BetList<T>::deleteBet(const T &oldBet) {
-    if (!exists(oldBet))
+    if (!exists(oldBet)) //bet does not exist
         throw std::invalid_argument("Bet does not exist in current Manager");
 
     if (betHead->bet == oldBet) //bet for deletion is first bet in Manager.
@@ -248,14 +301,18 @@ void BetList<T>::deleteBet(const T &oldBet) {
     numBets--;
 }
 
+/**
+ * Deletes all bets placed for a certain player/team. Throws an exception if the BetList is empty
+ * @param oldBet - String of player/team
+ */
 template <typename T>
 void BetList<T>::deleteBetsFor(const std::string &oldBet) {
-    if (numBets == 0)
-        throw std::invalid_argument("Manager is empty");
+    if (numBets == 0) //empty list
+        throw std::invalid_argument("List is empty");
 
     LinkedListNode<T>* curr;
 
-    for (curr = betHead; curr != nullptr; curr = curr -> next) {
+    for (curr = betHead; curr != nullptr; curr = curr -> next) { //iterate through list
         if (curr->bet.getFor() == oldBet) { //if curr is pointed towards a node to be deleted
             if (betHead == curr) //base case
                 betHead = curr -> next;
@@ -269,6 +326,10 @@ void BetList<T>::deleteBetsFor(const std::string &oldBet) {
     }
 }
 
+/**
+ * Deletes all bets placed against a certain player/team. Throws an exception if the BetList is empty
+ * @param oldBet - String of player/team
+ */
 template <typename T>
 void BetList<T>::deleteBetsAgainst(const std::string &oldBet) {
     if (numBets == 0)
@@ -290,6 +351,10 @@ void BetList<T>::deleteBetsAgainst(const std::string &oldBet) {
     }
 }
 
+/**
+ * Deletes all bets placed before a certain date.  Throws an exception if the BetList is empty
+ * @param date - Date object
+ */
 template <typename T>
 void BetList<T>::deleteBetsBefore(const Date &date) {
     if (numBets == 0)
@@ -297,7 +362,7 @@ void BetList<T>::deleteBetsBefore(const Date &date) {
 
     LinkedListNode<T>* temp;
     temp = betHead;
-    if (temp->bet.getDate() < date) {
+    if (temp->bet.getDate() < date) { //checks that the earliest date is before param date
 
         int counter = 0;
         while (temp-> bet.getDate() < date) {
@@ -311,24 +376,33 @@ void BetList<T>::deleteBetsBefore(const Date &date) {
     }
 }
 
+/**
+ * Returns date of first bet in linked list
+ * @return - Date of first bet
+ */
 template <typename T>
 Date BetList<T>::getEarliestDate() const {
     return betHead->bet.getDate();
 }
 
+/**
+ * returns date of last bet in linked list
+ * @return - Date of last bet
+ */
 template <typename T>
 Date BetList<T>::getLastDate() const {
     LinkedListNode<T>* temp = betHead;
-    while (temp ->next != nullptr) {
+    while (temp ->next != nullptr) { //iterate to last object in linked list
         temp = temp ->next;
     }
     return temp ->bet.getDate();
 }
 
+/**
+ * Checks if BetList is empty
+ * @return - true if empty, false if not
+ */
 template <typename T>
 bool BetList<T>::isEmpty() const {
-    if (numBets == 0)
-        return true;
-    else
-        return false;
+    return numBets == 0;
 }

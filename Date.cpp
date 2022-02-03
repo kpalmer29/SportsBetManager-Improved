@@ -4,10 +4,13 @@
 
 #include "Date.h"
 
+//ctor
 Date::Date(): day(0), month(0), year(0) {}
 
+//alt ctor
 Date::Date(int mon, int dy, int yr): day(dy), month(mon), year(yr) {}
 
+//sets the date, throws and exception if the param month and day are not in range
 void Date::setDate(int mon, int dy, int yr) {
     if (dy < 1 || dy > 31 || mon < 1 || mon > 12) {
         throw std::invalid_argument("Date not in range");
@@ -17,18 +20,22 @@ void Date::setDate(int mon, int dy, int yr) {
     year = yr;
 }
 
+//returns the day of this object
 int Date::getDay() const {
     return day;
 }
 
+//returns the month of this Date object
 int Date::getMonth() const {
     return month;
 }
 
+//return the year of this Date object
 int Date::getYear() const {
     return year;
 }
 
+//returns a string displaying the date of this object
 std::string Date::toString() const {
     std::string date;
     std::string mon = std::to_string(month);
@@ -38,9 +45,12 @@ std::string Date::toString() const {
     return date;
 }
 
+//returns true if rhs equals this object
 bool Date::equals(const Date &rhs) const {
     return year == rhs.year && month == rhs.month && day == rhs.day;
 }
+
+//operator overloads
 
 bool Date::operator==(const Date &rhs) const {
     return year == rhs.year && month == rhs.month && day == rhs.day;
@@ -135,17 +145,21 @@ bool Date::operator>=(const Date &rhs) const {
     }
 }
 
+//This function is used for looping. It increments the date by one day, updating the month
+//and year when appropriate
 void Date::increment() {
 
     if (getMonth() == 2) { //February
-        if (getYear() % 4 == 0 ) { //leap year
+
+        if (getYear() % 4 == 0 ) { //leap year check
             if (getDay() < 29) {
                 day = day + 1;
             }
             else
                 setDate(3, 1, getYear());
         }
-        else {
+
+        else { //not a leap year
             if (day < 28) {
                 day = day + 1;
             }
@@ -164,7 +178,7 @@ void Date::increment() {
         }
     }
 
-    else if (month == 12) {
+    else if (month == 12) { //December
         if (day < 31){
             day = day + 1;
         }
@@ -175,7 +189,7 @@ void Date::increment() {
         }
     }
 
-    else { //days w 31
+    else { //Months w 31 days other than December
         if (day < 31){
             day = day + 1;
         }

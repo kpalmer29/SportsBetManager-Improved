@@ -10,26 +10,27 @@
 class Date {
 private:
 
-    int day, month, year;
+    int day, month, year; //variables denoting todays date
 
 public:
 
-    Date();
+    Date(); //ctor
 
-    Date(int mon, int dy, int yr);
+    Date(int mon, int dy, int yr); //alt ctor
 
-    virtual std::string toString() const;
+    virtual std::string toString() const; //displays date as a string
 
-    virtual bool equals(const Date &rhs) const;
+    virtual bool equals(const Date &rhs) const; //checks if rhs equals this Date object
 
-    void setDate(int mon, int dy, int yr);
+    void setDate(int mon, int dy, int yr); //sets the date
 
-    int getYear() const;
+    int getYear() const; //returns the year
 
-    int getMonth() const;
+    int getMonth() const; //returns the month
 
-    int getDay() const;
+    int getDay() const; //returns the day
 
+    //operator overloads
     bool operator<(const Date &rhs) const;
 
     bool operator>(const Date &rhs) const;
@@ -42,6 +43,7 @@ public:
 
     bool operator>=(const Date &rhs) const;
 
+    //used in looping, increments the date by one day, updating the month and year when appropriate
     void increment();
 };
 

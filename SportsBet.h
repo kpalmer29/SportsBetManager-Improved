@@ -10,49 +10,49 @@
 class SportsBet {
 private:
 
-    int odds;
+    int odds; //odds of bet
 
-    char oddsSymbol;
+    char oddsSymbol; //direction of odds ('+' or '-')
 
-    Date gameDate;
+    Date gameDate; //date of bet
 
-    std::string sport;
+    std::string sport; //what sport the bet is for
 
     std::string betFor; //team/player betting for
 
-    std::string betAgainst; //teambetagainst
+    std::string betAgainst; //team/player betting against
 
 public:
 
-    char getOddsSymbol() const;
+    char getOddsSymbol() const; //return oddsSymbol
 
-    void setOddsSymbol(const char &od);
+    void setOddsSymbol(const char &od); //set oddsSymbol
 
-    int getOdds() const;
+    int getOdds() const; //return odds
 
-    void setOdds(const int &od);
+    void setOdds(const int &od); //set odds
 
-    Date getDate() const;
+    Date getDate() const; //return gameDate
 
-    void setDate(const int &day, const int &month, const int &year);
+    void setDate(const int &day, const int &month, const int &year); //set gameDate
 
-    std::string getSport() const;
+    std::string getSport() const; //return sport
 
-    void setSport(const std::string &spt);
+    void setSport(const std::string &spt); //set sport
 
-    std::string getFor() const;
+    std::string getFor() const; //return betFor
 
-    void setBetFor(const std::string &team);
+    void setBetFor(const std::string &team); //set betFor
 
-    std::string getAgainst() const;
+    std::string getAgainst() const; //return betAgainst
 
-    void setBetAgainst(const std::string &team);
+    void setBetAgainst(const std::string &team); //set betAgainst
 
-    virtual std::string toString();
+    virtual std::string toString(); //display SportsBet object as a String.
 
-    virtual bool equals(const SportsBet &rhs) const;
+    virtual bool equals(const SportsBet &rhs) const; //checks if param SportsBet is equal to this
 
-    virtual bool operator==(const SportsBet &rhs) const;
+    virtual bool operator==(const SportsBet &rhs) const; //operator overload
 };
 
 

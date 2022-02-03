@@ -12,7 +12,7 @@ template <typename T> class LinkedListNode {
 
 public:
 
-    ~LinkedListNode();
+    ~LinkedListNode(); //destructor
 
     explicit LinkedListNode(const T& newBet = T());
 

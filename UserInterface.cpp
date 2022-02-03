@@ -6,7 +6,7 @@
 #include <iostream>
 #include <sstream>
 
-
+//Displays Main Menu to Console
 void printMainMenu() {
     std::cout << "    SPORTSBET MANAGER\n"
               << "\n"
@@ -21,6 +21,7 @@ void printMainMenu() {
               << "8. Quit\n";
 }
 
+//Displays Add Menu to Console
 void printAddMenu() {
     std::cout << "What Type of Bet do you want to add?\n\n"
               << "1. MoneyLine\n"
@@ -30,6 +31,8 @@ void printAddMenu() {
               <<"5. Main Menu\n";
 }
 
+//creates a new SportsBet object and prompts user to set
+//all appropriate variables. Does not check input
 SportsBet createMoneylineObject() {
     SportsBet newBet;
 
@@ -74,6 +77,8 @@ SportsBet createMoneylineObject() {
     return newBet;
 }
 
+//creates a new Spread object and prompts user to set
+//all appropriate variables. Does not check input
 Spread createSpreadObject() {
     Spread newBet;
 
@@ -127,6 +132,8 @@ Spread createSpreadObject() {
     return newBet;
 }
 
+//creates a new Prop object and prompts user to set
+//all appropriate variables. Does not check input
 Prop createPropObject() {
     Prop newBet;
 
@@ -187,6 +194,8 @@ Prop createPropObject() {
     return newBet;
 }
 
+//creates a new OverUnder object and prompts user to set
+//all appropriate variables. Does not check input
 OverUnder createOverUnderObject() {
     OverUnder newBet;
 
@@ -243,41 +252,54 @@ OverUnder createOverUnderObject() {
     return newBet;
 }
 
+//this function prompts a user to determine what type of bet
+//they want to add, and then calls the appropriate helper method
+//to create a new bet. It then adds the bet to the param Manager (passed
+//by reference) and finally prompts the user to determine if they want to add another bet.
+//if the user does not input a valid option "Invalid Input" will be displayed to the screen
 void add(SportsBetManager &Manager) {
     char add = 'y';
     while (add == 'y') {
         printAddMenu();
         int addOption;
         std::cin >> addOption;
-        if (addOption == 1) {
+
+        if (addOption == 1) { //create MoneyLineBet
             SportsBet newBet = createMoneylineObject();
             Manager.addMoneylineBet(newBet);
         }
-        else if (addOption == 2) {
+
+        else if (addOption == 2) { //create Spread Bet
             Spread newBet = createSpreadObject();
             Manager.addSpreadBet(newBet);
         }
-        else if (addOption == 3) {
+
+        else if (addOption == 3) { //create Prop Bet
            Prop newBet = createPropObject();
            Manager.addPropBet(newBet);
         }
-        else if (addOption == 4) {
+
+        else if (addOption == 4) { //Create OverUnder Bet
             OverUnder newBet = createOverUnderObject();
             Manager.addOverUnderBet(newBet);
         }
-        else if (addOption == 5) {
+
+        else if (addOption == 5) { //return to main menu
             add = 'n';
         }
-        else {
+
+        else { //user did not enter a valid option
             std::cout << "\nInvalid Input\n";
         }
-        std::cout << "\nAdd another bet? (enter 'y' if yes, anything else for no): ";
+
+        std::cout << "\nAdd another bet? (enter 'y' if yes, anything else for no): "; //prompt user to exit loop
         char input;
         std::cin >> input;
         add = input;
     }
 }
 
+//prints the delete menu to console
 void printDeleteMenu() {
     std::cout << "\nDelete Bets\n";
     std::cout << "1. Delete MoneyLine Bet\n";
@@ -290,60 +312,72 @@ void printDeleteMenu() {
     std::cout << "8. Main Menu\n";
 }
 
+//prompts the user what type of bet they would like to delete and then calls the right helper method
+//if necessary
 void deleteBets(SportsBetManager &Manager) {
     char deleteBet = 'y';
     while (deleteBet == 'y') {
         printDeleteMenu();
         int deleteOption;
         std::cin >> deleteOption;
-        if (deleteOption == 1) {
+
+        if (deleteOption == 1) { //delete a MoneyLine bet
             std::cout << "\nEnter information about moneyline bet to delete:\n";
-            SportsBet newBet = createMoneylineObject();
-            Manager.deleteMoneylineBet(newBet);
+            SportsBet newBet = createMoneylineObject(); //create a new moneyline bet which is equal to bet to delete
+            Manager.deleteMoneylineBet(newBet); //delete bet from manager
         }
-        else if (deleteOption == 2) {
+
+        else if (deleteOption == 2) { //delete prop bet
             std::cout << "\nEnter information about prop bet to delete:\n";
             Prop newBet = createPropObject();
             Manager.deletePropBet(newBet);
         }
-        else if (deleteOption == 3) {
+
+        else if (deleteOption == 3) { //delete spread bet
             std::cout << "\nEnter information about spread bet to delete:\n";
             Spread newBet = createSpreadObject();
             Manager.deleteSpreadBet(newBet);
         }
-        else if (deleteOption == 4) {
+
+        else if (deleteOption == 4) { //delete overunder bet
             std::cout << "\nEnter information about Over/Under bet to delete:\n";
             OverUnder newBet = createOverUnderObject();
             Manager.deleteOverUnderBet(newBet);
         }
-        else if (deleteOption == 5) {
+
+        else if (deleteOption == 5) { //delete all bets for a certain team/player
             std::cout << "\nEnter the team/player you wish to delete all bets for: ";
             std::string team;
             std::cin >> team;
             Manager.deleteBetsFor(team);
         }
-        else if (deleteOption == 6) {
+
+        else if (deleteOption == 6) { //delete all bets against a certain team/player
             std::cout << "\nEnter the team/player you wish to delete all bets against: ";
             std::string team;
             std::cin >> team;
             Manager.deleteBetsAgainst(team);
         }
-        else if (deleteOption == 7) {
+
+        else if (deleteOption == 7) { //delete all bets
             std::cout << "\nWARNING: Are you sure you want to delete all bets? Enter 'y' for yes, anything else for no: ";
-            char warning;
+            char warning; //double check for delete all
             std::cin >> warning;
             if (warning == 'y')
                 Manager.deleteAllBets();
         }
-        else if (deleteOption == 8)
+
+        else if (deleteOption == 8) // return to main menu
             deleteBet = 'n';
 
-        else {
+        else { //invalid user input
             std::cout << "\nInvalid Input\n";
         }
     }
 }
 
+//this method prompts the use ror today's date, and then deletes all bets held by the manager
+//before that date
 void updateDate(SportsBetManager &Manager) {
     int day, month, year;
     std::cout << "\nEnter today's month (1-12): ";

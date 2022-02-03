@@ -19,19 +19,19 @@ private:
 
 public:
 
-    void setOver(bool under);
+    void setOver(bool under); //set if betting over or under point total
 
-    void setPoints(const double &line);
+    void setPoints(const double &line); //set point total
 
-    double getPoints() const;
+    double getPoints() const; //get point total
 
-    bool isOver() const;
+    bool isOver() const; //get if betting over or under point total
 
-    bool equals(const OverUnder &rhs) const;
+    bool equals(const OverUnder &rhs) const; //checks if rhs is equal to this object
 
-    bool operator==(const OverUnder &rhs) const;
+    bool operator==(const OverUnder &rhs) const; //operator overload
 
-    std::string toString() const;
+    std::string toString() const; //display OverUnder bet to a string
 
 };
 

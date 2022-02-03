@@ -4,22 +4,27 @@
 
 #include "Prop.h"
 
+//return prop line
 double Prop::getPropLine() const {
     return propLine;
 }
 
+//return prop category
 std::string Prop::getPropType() const {
     return propType;
 }
 
+//set the line for the prop bet
 void Prop::setPropLine(const double &line) {
     propLine = line;
 }
 
+//set the category of the prop bet (i.e. rebounds)
 void Prop::setPropType(const std::string &type) {
     propType = type;
 }
 
+//checks if Prop bet rhs is equal to this object
 bool Prop::equals(const Prop &rhs) const {
     return propType == rhs.propType &&
            propLine == rhs.propLine &&
@@ -30,18 +35,22 @@ bool Prop::equals(const Prop &rhs) const {
            this->getAgainst() == rhs.getAgainst();
 }
 
+//operator overload
 bool Prop::operator==(const Prop &rhs) const {
     return equals(rhs);
 }
 
+//returns if betting over or under the prop category
 bool Prop::isOver() const {
     return over;
 }
 
+//sets if betting over or under the prop category
 void Prop::setOver(bool under) {
     over = under;
 }
 
+//returns a string displaying a prop bet
 std::string Prop::toString() const {
     std::string dt = getDate().toString();
     std::string odd = std::to_string(getOdds());

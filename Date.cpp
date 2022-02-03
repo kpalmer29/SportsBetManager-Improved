@@ -140,14 +140,14 @@ void Date::increment() {
     if (getMonth() == 2) { //February
         if (getYear() % 4 == 0 ) { //leap year
             if (getDay() < 29) {
-                day = getDay() + 1;
+                day = day + 1;
             }
             else
                 setDate(3, 1, getYear());
         }
         else {
-            if (getYear() < 28) {
-                day = getDay() + 1;
+            if (day < 28) {
+                day = day + 1;
             }
             else
                 setDate(3, 1, getYear());
@@ -155,18 +155,29 @@ void Date::increment() {
     }
 
     else if (getMonth() == 4 || getMonth() == 6 || getMonth() == 9|| getMonth() == 11) { //months w/30 days
-        if (getDay() < 30){
-            day = getDay() + 1;
+        if (day < 30){
+            day = day + 1;
         }
         else {
-            int newMonth = getMonth() + 1;
-            setDate(newMonth, 1, getYear());
+            month = month + 1;
+            day = 1;
+        }
+    }
+
+    else if (month == 12) {
+        if (day < 31){
+            day = day + 1;
+        }
+        else {
+            month = 1;
+            day = 1;
+            year = year + 1;
         }
     }
 
     else { //days w 31
-        if (getDay() < 31){
-            day = getDay() + 1;
+        if (day < 31){
+            day = day + 1;
         }
         else {
             int newMonth = getMonth() + 1;
